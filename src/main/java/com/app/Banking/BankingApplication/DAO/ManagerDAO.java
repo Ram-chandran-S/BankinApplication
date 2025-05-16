@@ -33,7 +33,7 @@ public class ManagerDAO {
 		}
 		else return null;
 	}
-	public List<Manager> findAllBranch() {
+	public List<Manager> findAlManager() {
 		List<Manager> manlist= repo.findAll();
 		if (manlist != null) 
 			return manlist;

@@ -23,7 +23,7 @@ public class BankDAO {
 			return opbank.get();
 		else return null;
 	}
-	public List<Bank> findAllEmployees(){
+	public List<Bank> findAllBank(){
 		List<Bank> lisBank = repo.findAll();
 		if(lisBank !=null)
 		return lisBank;
