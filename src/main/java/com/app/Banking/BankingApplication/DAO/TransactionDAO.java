@@ -71,7 +71,8 @@ public class TransactionDAO {
 	public Transaction upiTransaction(int toAccountId,Transaction data) {
 		var toAccount=dao.findAccountById(toAccountId);
 		var fromAccount = dao.findAccountById(data.getTransactionAccount().getAccountId());
-		if (fromAccount != null && toAccount != null) {
+		if (fromAccount != null) {
+			if(toAccount != null) {
 			if(fromAccount.getAccountBalance()>=data.getTransactionAmount()) {
 				fromAccount.setAccountBalance(fromAccount.getAccountBalance()-data.getTransactionAmount());
 				toAccount.setAccountBalance(toAccount.getAccountBalance()+data.getTransactionAmount());
@@ -82,7 +83,8 @@ public class TransactionDAO {
 				saveTransaction(toAccountTransaction);
 				return saveTransaction(data);
 			}else return null;
-		}else return null;
+			}else return null;
+			}else return null;
 	}
 
 }

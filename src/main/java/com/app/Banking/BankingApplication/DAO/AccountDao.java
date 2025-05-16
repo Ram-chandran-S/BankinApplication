@@ -8,11 +8,15 @@ import org.springframework.stereotype.Repository;
 
 import com.app.Banking.BankingApplication.DTO.Account;
 import com.app.Banking.BankingApplication.DTO.AccountType;
+import com.app.Banking.BankingApplication.DTO.Transaction;
 import com.app.Banking.BankingApplication.Repository.AccountRepository;
 @Repository
 public class AccountDao {
 	@Autowired
-	AccountRepository repo;
+	private AccountRepository repo;
+	@Autowired
+	private TransactionDAO dao;
+	
 	
 	public Account saveAccount(Account account) {
 		return repo.save(account);
@@ -55,6 +59,13 @@ public class AccountDao {
 		}
 		else return null;
 		
+	}
+	public List<Transaction> findTransactionByAccountId(int accountId) {
+		Account dbaccount = findAccountById(accountId);
+		if(dbaccount != null) {
+			return dbaccount.getAccountTransactions();
+		}
+		else return null;
 	}
 	
 

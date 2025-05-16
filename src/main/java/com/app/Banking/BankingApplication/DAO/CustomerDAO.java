@@ -48,8 +48,8 @@ public class CustomerDAO {
 		}
 		else return null;
 	}	
-	public Customer findCustomerByName(String customername) {
-		Customer dbdata = repo.findByCustomerName(customername);
+	public List<Customer> findCustomerByName(String customerName) {
+		List<Customer> dbdata = repo.findByCustomerName(customerName);
 		if(dbdata != null) 
 			return dbdata;
 		else return null;
