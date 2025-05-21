@@ -37,7 +37,7 @@ public class ManagerService {
 			return new ResponseEntity<List<Manager>>(dbManagerlist,HttpStatus.ACCEPTED);
 		else throw new ManagerNotFoundException("There is no Manager");
 	}
-	public ResponseEntity<List<Manager>> findManagerByNAme(String managerName) {
+	public ResponseEntity<List<Manager>> findManagerByName(String managerName) {
 		List<Manager> dbManager = dao.findByManagerName(managerName);
 		if(dbManager != null)
 			return new ResponseEntity<List<Manager>>(dbManager,HttpStatus.ACCEPTED);

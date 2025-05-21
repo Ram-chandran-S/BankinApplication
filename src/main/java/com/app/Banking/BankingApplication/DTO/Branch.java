@@ -18,12 +18,13 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 @Setter
 @Getter
-@AllArgsConstructor
 @Entity
 @Cacheable
+@NoArgsConstructor
 public class Branch {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,7 +33,7 @@ public class Branch {
 	@NotNull(message = "The field does not have null values")
 	private String branchName;
 	
-	private String branchIFSCcode;
+	private String branchIfscCode;
 	@Min(value = 6000000000l,message = "invalid contact")
 	@Max(value = 9999999999l,message = "invalid contact")
 	private long branchContact;
@@ -45,5 +46,19 @@ public class Branch {
 	private Manager branchManager;
 	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	private List<Customer> branchCustomer;
-
+	
+	public Branch(
+			@NotBlank(message = "the field does not empty and not comtain only white space") @NotNull(message = "The field does not have null values") String branchName,
+			@Min(value = 6000000000l, message = "invalid contact") @Max(value = 9999999999l, message = "invalid contact") long branchContact,
+			@NotBlank(message = "the field does not empty and not comtain only white space") @NotNull(message = "The field does not have null values") String branchCity,
+			Manager branchManager) {
+		super();
+		this.branchName = branchName;
+		this.branchContact = branchContact;
+		this.branchCity = branchCity;
+		this.branchManager = branchManager;
+	}
+	
+	
+	
 }

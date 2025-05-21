@@ -10,25 +10,33 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
+@Entity
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Check(constraints = "accountBalance >= 5000")
 @Cacheable
 public class Account {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int accountId;
-	@Positive(message = "balance should not negative")
+	
+	@DecimalMin(value = "5000.0", message = "Minimum balance should be 5000")
 	private double accountBalance;
 	@Enumerated(EnumType.STRING)
 	private AccountType accountType;
 	@OneToOne(cascade = CascadeType.ALL)
 	private Customer accountCustomer;
-	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "transactionAccount",cascade = CascadeType.ALL)
 	private List<Transaction> accountTransactions;
+	
+	
+	public Account(@DecimalMin(value = "5000.0", message = "Minimum balance should be 5000") double accountBalance,
+			AccountType accountType) {
+		super();
+		this.accountBalance = accountBalance;
+		this.accountType = accountType;
+	}
+	
+	
 
 }

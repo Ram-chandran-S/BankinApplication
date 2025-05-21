@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.app.Banking.BankingApplication.DTO.Manager;
 
 public interface ManagerRepository extends JpaRepository<Manager, Integer> {
-	public  List<Manager> findByName(String managerName);
+	public  List<Manager> findByManagerName(String managerName);
 }

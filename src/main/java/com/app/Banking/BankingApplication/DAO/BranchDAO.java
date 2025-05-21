@@ -9,12 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.app.Banking.BankingApplication.DTO.Branch;
+import com.app.Banking.BankingApplication.DTO.Manager;
 import com.app.Banking.BankingApplication.Repository.BranchRepository;
 
 @Repository
 public class BranchDAO {
 	@Autowired
 	private BranchRepository repo;
+	@Autowired
+	private ManagerDAO dao;
 	
 	
 	public Branch saveBranch(Branch branch) {
@@ -26,9 +29,9 @@ public class BranchDAO {
 		 do {
 			 String random = String.format("%04d", (int) (Math.random() * 10000));
 			  Ifsc =substr+LocalDate.now().getYear()+random;
-			  branch.setBranchIFSCcode(Ifsc);
+			  branch.setBranchIfscCode(Ifsc);
 			  return branch;
-		} while (repo.existBybranchIFSCcode(Ifsc));
+		} while (repo.existsByBranchIfscCode(Ifsc));
 	}
 	
 	public Branch findBranchById(int branchId) {
@@ -38,7 +41,17 @@ public class BranchDAO {
 		else return null;
 		
 	}
-	
+	public Branch addRelationBranchToManager(int BranchId,int ManagerId ) {
+		Branch dbBranch=findBranchById(BranchId);
+		Manager dbManager= dao.findManagerById(ManagerId);
+		if (dbBranch !=null) {
+			if (dbManager != null) {
+				dbBranch.setBranchManager(dbManager);
+				return saveBranch(dbBranch);
+			}else return null;
+		}else return null;
+		
+	}
 	public Branch updateBranch(int dbBranchId,Branch newBranchData) {
 		Branch dbdata = findBranchById(dbBranchId);
 		if(dbdata != null) {

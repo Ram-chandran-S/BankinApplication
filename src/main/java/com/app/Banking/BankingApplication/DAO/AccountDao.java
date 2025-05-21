@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.app.Banking.BankingApplication.DTO.Account;
 import com.app.Banking.BankingApplication.DTO.AccountType;
+import com.app.Banking.BankingApplication.DTO.Customer;
 import com.app.Banking.BankingApplication.DTO.Transaction;
 import com.app.Banking.BankingApplication.Repository.AccountRepository;
 @Repository
@@ -16,6 +17,8 @@ public class AccountDao {
 	private AccountRepository repo;
 	@Autowired
 	private TransactionDAO dao;
+	@Autowired
+	private CustomerDAO cusdao;
 	
 	
 	public Account saveAccount(Account account) {
@@ -28,6 +31,17 @@ public class AccountDao {
 		} else {
 		return null;
 		}
+	}
+	public Account addRelationAccountToCustomerById(int accountId,int customerId) {
+		Account dbacc = findAccountById(accountId);
+		Customer dbcustomer = cusdao.findCustomerById(customerId);
+		if (dbacc !=null) {
+			if(dbcustomer != null) {
+				dbacc.setAccountCustomer(dbcustomer);
+				return saveAccount(dbacc);
+			}
+			else return null;
+		} else return null;
 	}
 	public  Account updateAccount(int oldAccId,Account newdata) {
 		Account dbdata = findAccountById(oldAccId);

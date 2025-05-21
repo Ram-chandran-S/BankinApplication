@@ -18,7 +18,7 @@ public class CustomerService {
 	@Autowired
 	private CustomerDAO dao;
 	
-	public ResponseEntity<Customer> saveCustoEntity(Customer customer) {
+	public ResponseEntity<Customer> saveCustomer(Customer customer) {
 		return new ResponseEntity<Customer>(dao.saveCustomer(customer),HttpStatus.CREATED);
 	}
 	public ResponseEntity<Customer>	findCustomerById(int customerId){
@@ -51,6 +51,12 @@ public class CustomerService {
 			return new ResponseEntity<List<Customer>>(dbdata,HttpStatus.FOUND);
 		else throw new CustomerNotFoundException("No Data found For "+customerName);
 
+	}
+	public ResponseEntity<Customer> findCustomerByEmailaddress(String email) {
+		Customer dbcustomer= dao.findCustomerByEmailaddress(email);
+		if(dbcustomer!=null)
+			return new ResponseEntity<Customer>(dbcustomer,HttpStatus.FOUND);
+		else throw new CustomerNotFoundException("Customer not found for this "+ email+" Address");
 	}
 
 }

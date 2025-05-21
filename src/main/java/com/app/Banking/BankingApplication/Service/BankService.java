@@ -8,20 +8,25 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.app.Banking.BankingApplication.DAO.BankDAO;
+import com.app.Banking.BankingApplication.DAO.BranchDAO;
 import com.app.Banking.BankingApplication.DTO.Bank;
+import com.app.Banking.BankingApplication.DTO.Branch;
 import com.app.Banking.BankingApplication.Exception.BankNotFoundException;
+import com.app.Banking.BankingApplication.Exception.BranchNotFoundExceotion;
 
 @Service
 public class BankService {
 	@Autowired
 	private BankDAO dao;
+	@Autowired
+	private BranchDAO branchdao;
 	
 	public ResponseEntity<Bank> saveBank(Bank bank) {
 		return new ResponseEntity<Bank>(dao.saveBank(bank),HttpStatus.CREATED);
 	}
 	
 	public ResponseEntity<Bank> findBankById(int bankId) {
-		Bank dbBank = dao.findBAnkById(bankId);
+		Bank dbBank = dao.findBankById(bankId);
 		if(dbBank != null )
 			return new ResponseEntity<Bank>(dbBank,HttpStatus.FOUND);
 		else 
@@ -41,5 +46,13 @@ public class BankService {
 			return new ResponseEntity<List<Bank>>(dbbank,HttpStatus.FOUND);
 		else throw new BankNotFoundException("Bank Not Fount for given name");
 	}
+	public ResponseEntity<Bank> addRelationBankToBranchById(int bankId,int BranchId) {
+		Bank dbBank = dao.findBankById(bankId);
+		Branch dbBranch =branchdao.findBranchById(BranchId);
+		if(dbBranch != null) {
+			if(dbBank != null) {
+				return new ResponseEntity<Bank>(dao.addRelationBankToBranchById(bankId, BranchId),HttpStatus.OK);
+			}else throw new BankNotFoundException("Bank not found for Given Id");
+		}else throw new BranchNotFoundExceotion("Branch Not found for given Id");
 
-}
+}}

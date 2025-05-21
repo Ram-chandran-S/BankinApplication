@@ -16,12 +16,14 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 @Setter
 @Getter
 @AllArgsConstructor
 @Entity
 @Cacheable
+@NoArgsConstructor
 public class Manager {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,6 +43,18 @@ public class Manager {
 	private long managerContact;
 	@OneToOne(cascade = CascadeType.ALL)
 	private Branch managerBranch;
+	
+	public Manager(
+			@NotNull(message = "The field does not have null values") @NotBlank(message = "the field does not empty and not comtain only white space") String managerName,
+			@Email @NotNull(message = "The field does not have null values") @NotBlank(message = "the field does not empty and not comtain only white space") String managerEmail,
+			@NotNull(message = "The field does not have null values") @NotBlank(message = "the field does not empty and not comtain only white space") String managerPassword,
+			@Min(value = 6000000000l, message = "invalid contact") @Max(value = 9999999999l, message = "invalid contact") long managerContact) {
+		super();
+		this.managerName = managerName;
+		this.managerEmail = managerEmail;
+		this.managerPassword = managerPassword;
+		this.managerContact = managerContact;
+	}
 	
 	
 	 

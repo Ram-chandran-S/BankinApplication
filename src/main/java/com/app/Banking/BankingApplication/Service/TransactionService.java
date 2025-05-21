@@ -22,8 +22,8 @@ public class TransactionService {
 	@Autowired
 	private AccountDao accDao;
 	
-	public ResponseEntity<Transaction> saveTransaction(Transaction transaction) {
-		return new ResponseEntity<Transaction>(dao.saveTransaction(transaction),HttpStatus.CREATED);
+	public ResponseEntity<Transaction> saveTransaction(int AccountId,String Email,String possword,Transaction transaction) {
+		return new ResponseEntity<Transaction>(dao.validatecredential(AccountId,Email, possword, transaction),HttpStatus.CREATED);
 	}
 	public ResponseEntity<Transaction> findTransaction(int transactionId) {
 		Transaction tran = dao.findTransaction(transactionId);
@@ -43,13 +43,13 @@ public class TransactionService {
 			return new ResponseEntity<List<Transaction>>(dbTran,HttpStatus.FOUND);
 		else throw new TransactionNotFoundException("No Transaction Found For this Type");
 	}
-	public ResponseEntity<Transaction> UPItransaction(int toAccountId,Transaction data) {
+	public ResponseEntity<Transaction> UPItransaction(int fromAccountId,int toAccountId,String possword,Transaction data) {
 		var toAccount=accDao.findAccountById(toAccountId);
-		var fromAccount = accDao.findAccountById(data.getTransactionAccount().getAccountId());
+		var fromAccount = accDao.findAccountById(fromAccountId);
 		if (fromAccount != null) {
 			if(toAccount != null) {
 			if(fromAccount.getAccountBalance()>=data.getTransactionAmount()) {
-				return new ResponseEntity<Transaction>(dao.upiTransaction(toAccountId, data),HttpStatus.ACCEPTED);
+				return new ResponseEntity<Transaction>(dao.upiTransaction(fromAccountId,toAccountId,possword,data),HttpStatus.ACCEPTED);
 			}else throw new TransactionNotFoundException("Insufficent balance ");
 			}else throw new TransactionNotFoundException("reciever account not found ");
 		}else throw new TransactionNotFoundException("your account not found ");

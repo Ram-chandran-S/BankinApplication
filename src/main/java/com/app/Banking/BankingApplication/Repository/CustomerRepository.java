@@ -8,4 +8,5 @@ import com.app.Banking.BankingApplication.DTO.Customer;
 
 public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 	public List<Customer> findByCustomerName(String customerString);
+	Customer findByCustomerEmail(String email);
 }

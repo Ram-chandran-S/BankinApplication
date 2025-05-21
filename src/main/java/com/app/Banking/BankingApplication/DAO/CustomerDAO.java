@@ -33,6 +33,12 @@ public class CustomerDAO {
 		}
 		else return null;
 	}
+	public Customer findCustomerByEmailaddress(String email) {
+		Customer dbcustomer= repo.findByCustomerEmail(email);
+		if(dbcustomer!=null)
+			return dbcustomer;
+		else return null;
+	}
 	public List<Customer> findAllCustomers() {
 		List<Customer> liscus = repo.findAll();
 		if (liscus!=null) {

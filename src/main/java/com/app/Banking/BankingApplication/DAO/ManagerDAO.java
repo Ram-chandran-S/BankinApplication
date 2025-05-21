@@ -42,7 +42,7 @@ public class ManagerDAO {
 			return null;
 	}
 	public List<Manager> findByManagerName(String managerName) {
-		List<Manager> manlist=repo.findByName(managerName);
+		List<Manager> manlist=repo.findByManagerName(managerName);
 		if (manlist != null) 
 			return manlist;
 		else 
